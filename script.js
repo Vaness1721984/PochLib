@@ -16,8 +16,17 @@ document.getElementById("Btn_Search").addEventListener("click", function() {
 }, false);
 
 
-function fetchData() {
-	fetch ("https://www.googleapis.com/books/v1/volumes?q=inauthor:marcel+pagnol&maxResults=1&key=AIzaSyDayz0L9d9KbYEU17fcqMJ6dU8UDIkJXhQ")
+
+
+let urlString = 'https://www.googleapis.com/books/v1/volumes?q=';
+var intitle = document.getElementById("title");
+var inauthor = document.getElementById("author");
+var apiKey = '&key=AIzaSyDayz0L9d9KbYEU17fcqMJ6dU8UDIkJXhQ';
+
+
+document.getElementById("Btn_Search").addEventListener("click",function fetchData() {
+	var url = urlString + intitle.value + '+inauthor:' + inauthor.value + apiKey;
+	fetch (url)
 	.then(response => {
 		console.log(response);
 		if(!response.ok){
@@ -39,10 +48,9 @@ function fetchData() {
 		.join("");
 	console.log(html);
 	document
-	.querySelector("#results1").insertAdjacentHTML("afterbegin", html);
+	.querySelector("#results").insertAdjacentHTML("afterbegin", html);
 	})
 	.catch(error =>{
 		console.log(error);
 	})
-}
-fetchData();
+});
