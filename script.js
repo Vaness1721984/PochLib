@@ -18,7 +18,7 @@ document.getElementById("Btn_Search").addEventListener("click", function() {
 
 
 
-let urlString = 'https://www.googleapis.com/books/v1/volumes?q=';
+var urlString = 'https://www.googleapis.com/books/v1/volumes?q=';
 var intitle = document.getElementById("title");
 var inauthor = document.getElementById("author");
 var apiKey = '&key=AIzaSyDayz0L9d9KbYEU17fcqMJ6dU8UDIkJXhQ';
