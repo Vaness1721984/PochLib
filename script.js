@@ -37,18 +37,25 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 	.then(data => {
 		console.log(data.items);
 		const html = data.items.map(googleBooks => {
+			var title = googleBooks.volumeInfo.title;
+			var id = googleBooks.id;
+			var author = googleBooks.volumeInfo.authors;
+			var desc = typeof googleBooks.volumeInfo.description === 'undefined' ? 'Information manquante' : googleBooks.volumeInfo.description.substring(0,199);
+			var img = new Image() ;
+			img.src= "C:/Users/vanes/Desktop/OpenClassrooms/Projet 6/Livrables/PochLib/img/unavailable.png" ;
+
 			return `
-			<p>Titre : ${googleBooks.volumeInfo.title} </p>
-			<p>Id : ${googleBooks.id} </p>
-			<p>Auteur : ${googleBooks.volumeInfo.authors} </p>
-			<p>Description : ${googleBooks.volumeInfo.description} </p>
-			<p><img src="${googleBooks.volumeInfo.imageLinks.thumbnail}" alt="${googleBooks.volumeInfo.title}" </p>
+			<p>Titre : ${title} </p>
+			<p>Id : ${id} </p>
+			<p>Auteur : ${author} </p>
+			<p>Description : ${desc} </p>
+			<p><img src="${googleBooks.volumeInfo.imageLinks.thumbnail}" === 'undefined' ? : img.src " alt="${googleBooks.volumeInfo.title}" </p>
 			`;
 		})
 		.join("");
 	console.log(html);
 	document
-	.querySelector("#results").insertAdjacentHTML("afterbegin", html);
+	.querySelector(".results").insertAdjacentHTML("afterbegin", html);
 	})
 	.catch(error =>{
 		console.log(error);

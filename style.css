@@ -80,7 +80,7 @@ align-self:start;
 	grid-gap:2rem;
 }
 
-.grid-item{
+.results{
 	background-color: rgb(224,224,224);
 	border:1px solid grey;
 }
