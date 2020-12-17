@@ -40,16 +40,16 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 	.then(data => {
 		console.log(data.items);
 		/* "Pas de résultats"*/
+		if(data.item === 0)
+		console.log("Aucun livre n'a été trouvé");
+		else {
 		const html = data.items.map(googleBooks => {
-			if(googleBooks.length === 0)
-			console.log("Aucun livre n'a été trouvé");
-			else {
 			let title = googleBooks.volumeInfo.title;
 			let id = googleBooks.id;
-			let author = googleBooks.volumeInfo.authors[0];
+			let author = typeof googleBooks.volumeInfo.authors === 'undefined' ? 'Information manquante' : googleBooks.volumeInfo.authors[0];
 			let desc = typeof googleBooks.volumeInfo.description === 'undefined' ? 'Information manquante' : googleBooks.volumeInfo.description.substring(0,199);
 			let img = 'img/unavailable.png';
-			if (googleBooks.volumeInfo.imageLinks) {
+			if (typeof googleBooks.volumeInfo.imageLinks ===! 'undefined') {
 				img = googleBooks.volumeInfo.imageLinks.thumbnail
 			};
 
@@ -60,13 +60,13 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 			<p>Description : ${desc} </p>
 			<p><img src="${img}" alt="${googleBooks.volumeInfo.title}" </p>
 			`;
-		} 
 		})
 		.join("");
 	console.log(html);
 	document
 	.querySelector(".results").insertAdjacentHTML("afterbegin", html);
-	})
+	}	
+})
 	.catch(error =>{
 		console.log(error);
 	})
