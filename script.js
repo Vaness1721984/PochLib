@@ -17,15 +17,18 @@ document.getElementById("Btn_Search").addEventListener("click", function() {
 
 
 
-
 var urlString = 'https://www.googleapis.com/books/v1/volumes?q=';
 var intitle = document.getElementById("title");
 var inauthor = document.getElementById("author");
+var printType = 'books';
 var apiKey = '&key=AIzaSyDayz0L9d9KbYEU17fcqMJ6dU8UDIkJXhQ';
 
 
 document.getElementById("Btn_Search").addEventListener("click",function fetchData() {
-	var url = urlString + intitle.value + '+inauthor:' + inauthor.value + apiKey;
+	var url = urlString + intitle.value + '+inauthor:' + inauthor.value + '&printType=' + printType + apiKey;
+    if (intitle.value === '' || inauthor.value === '') {
+        alert("Please enter a title and author before clicking on Search button");
+    } else {
 	fetch (url)
 	.then(response => {
 		console.log(response);
@@ -36,21 +39,28 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 	})
 	.then(data => {
 		console.log(data.items);
+		/* "Pas de résultats"*/
 		const html = data.items.map(googleBooks => {
-			var title = googleBooks.volumeInfo.title;
-			var id = googleBooks.id;
-			var author = googleBooks.volumeInfo.authors;
-			var desc = typeof googleBooks.volumeInfo.description === 'undefined' ? 'Information manquante' : googleBooks.volumeInfo.description.substring(0,199);
-			var img = new Image() ;
-			img.src= "C:/Users/vanes/Desktop/OpenClassrooms/Projet 6/Livrables/PochLib/img/unavailable.png" ;
+			if(googleBooks.length === 0)
+			console.log("Aucun livre n'a été trouvé");
+			else {
+			let title = googleBooks.volumeInfo.title;
+			let id = googleBooks.id;
+			let author = googleBooks.volumeInfo.authors[0];
+			let desc = typeof googleBooks.volumeInfo.description === 'undefined' ? 'Information manquante' : googleBooks.volumeInfo.description.substring(0,199);
+			let img = 'img/unavailable.png';
+			if (googleBooks.volumeInfo.imageLinks) {
+				img = googleBooks.volumeInfo.imageLinks.thumbnail
+			};
 
 			return `
 			<p>Titre : ${title} </p>
 			<p>Id : ${id} </p>
 			<p>Auteur : ${author} </p>
 			<p>Description : ${desc} </p>
-			<p><img src="${googleBooks.volumeInfo.imageLinks.thumbnail}" === 'undefined' ? : img.src " alt="${googleBooks.volumeInfo.title}" </p>
+			<p><img src="${img}" alt="${googleBooks.volumeInfo.title}" </p>
 			`;
+		} 
 		})
 		.join("");
 	console.log(html);
@@ -60,4 +70,5 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 	.catch(error =>{
 		console.log(error);
 	})
+}
 });
