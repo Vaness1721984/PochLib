@@ -48,17 +48,14 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 			let id = googleBooks.id;
 			let author = typeof googleBooks.volumeInfo.authors === 'undefined' ? 'Information manquante' : googleBooks.volumeInfo.authors[0];
 			let desc = typeof googleBooks.volumeInfo.description === 'undefined' ? 'Information manquante' : googleBooks.volumeInfo.description.substring(0,199);
-			let img = 'img/unavailable.png';
-			if (typeof googleBooks.volumeInfo.imageLinks ===! 'undefined') {
-				img = googleBooks.volumeInfo.imageLinks.thumbnail
-			};
+			let img = googleBooks.volumeInfo.imageLinks === undefined ? 'img/unavailable.png' : `${googleBooks.volumeInfo.imageLinks.thumbnail}`;
 
 			return `
 			<p>Titre : ${title} </p>
 			<p>Id : ${id} </p>
 			<p>Auteur : ${author} </p>
 			<p>Description : ${desc} </p>
-			<p><img src="${img}" alt="${googleBooks.volumeInfo.title}" </p>
+			<p><img src="${img}" height="200" alt="${googleBooks.volumeInfo.title}" </p>
 			`;
 		})
 		.join("");
