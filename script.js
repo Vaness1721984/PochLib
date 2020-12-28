@@ -1,3 +1,9 @@
+var urlString = 'https://www.googleapis.com/books/v1/volumes?q=';
+var intitle = document.getElementById("title");
+var inauthor = document.getElementById("author");
+var printType = 'books';
+var apiKey = '&key=AIzaSyDayz0L9d9KbYEU17fcqMJ6dU8UDIkJXhQ';
+
 document.getElementById("Btn_Add").addEventListener("click", function() {
 	document.getElementById("Btn_Add").hidden=true;
 	document.getElementById("form").hidden=false;
@@ -11,18 +17,13 @@ document.getElementById("Btn_Cancel").addEventListener("click", function() {
 }, false);
 
 document.getElementById("Btn_Search").addEventListener("click", function() {
+	if (intitle.value === '' || inauthor.value === '') {
+	document.getElementById("results").hidden=true;
+	document.getElementById("content").hidden=false;	
+	} else {
 	document.getElementById("results").hidden=false;
 	document.getElementById("content").hidden=true;
-}, false);
-
-
-
-var urlString = 'https://www.googleapis.com/books/v1/volumes?q=';
-var intitle = document.getElementById("title");
-var inauthor = document.getElementById("author");
-var printType = 'books';
-var apiKey = '&key=AIzaSyDayz0L9d9KbYEU17fcqMJ6dU8UDIkJXhQ';
-
+}}, false);
 
 document.getElementById("Btn_Search").addEventListener("click",function fetchData() {
 	var url = urlString + intitle.value + '+inauthor:' + inauthor.value + '&printType=' + printType + apiKey;
@@ -38,11 +39,13 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 		return response.json();
 	})
 	.then(data => {
+				/* "Si pas de résultats"*/
+				if(data.totalItems === 0){
+				console.log("Aucun livre n'a été trouvé")
+				document
+				.querySelector(".results").insertAdjacentHTML("afterbegin", "Aucun livre n'a été trouvé");}
+				else {
 		console.log(data.items);
-		/* "Pas de résultats"*/
-		if(data.item === 0)
-		console.log("Aucun livre n'a été trouvé");
-		else {
 		const html = data.items.map(googleBooks => {
 			let title = googleBooks.volumeInfo.title;
 			let id = googleBooks.id;
@@ -59,7 +62,7 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 			`;
 		})
 		.join("");
-	console.log(html);
+	console.log(html)
 	document
 	.querySelector(".results").insertAdjacentHTML("afterbegin", html);
 	}	
