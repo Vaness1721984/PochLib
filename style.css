@@ -73,11 +73,18 @@ border-radius: 5px;
 align-self:start;
 }
 
-.grid-container{
+.card{
 	display:grid;
 	grid-template-columns: auto auto;
 	background-color: rgb(239,240,244);;
 	border:1px solid grey;
 }
 
+.bookTitle{
+font-weight: bold;
+}
 
+.bookId{
+	font-weight: bold;
+	font-style: italic;
+	}

@@ -54,11 +54,11 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 			let img = googleBooks.volumeInfo.imageLinks === undefined ? 'img/unavailable.png' : `${googleBooks.volumeInfo.imageLinks.thumbnail}`;
 
 			return `
-			<p>Titre : ${title} </p>
-			<p>Id : ${id} </p>
-			<p>Auteur : ${author} </p>
-			<p>Description : ${desc} </p>
-			<p><img src="${img}" height="200" alt="${googleBooks.volumeInfo.title}" </p>
+			<p class="bookTitle">Titre : ${title} </p>
+			<p class="bookId">Id : ${id} </p>
+			<p class="bookAuthor" >Auteur : ${author} </p>
+			<p class="bookDesc" >Description : ${desc} </p>
+			<p class="bookImg" ><img src="${img}" height="200" alt="${googleBooks.volumeInfo.title}" </p>
 			`;
 		})
 		.join("");
