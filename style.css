@@ -75,12 +75,9 @@ align-self:start;
 
 .grid-container{
 	display:grid;
-	grid-template-columns:repeat(2, minmax(180px, 1fr));
-	grid-template-rows:auto;
-	grid-gap:2rem;
-}
-
-.results{
-	background-color: rgb(224,224,224);
+	grid-template-columns: auto auto;
+	background-color: rgb(239,240,244);;
 	border:1px solid grey;
 }
+
+

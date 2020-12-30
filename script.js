@@ -64,7 +64,7 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 		.join("");
 	console.log(html)
 	document
-	.querySelector(".results").insertAdjacentHTML("afterbegin", html);
+	.querySelector(".grid-container").insertAdjacentHTML("afterbegin",html );
 	}	
 })
 	.catch(error =>{
