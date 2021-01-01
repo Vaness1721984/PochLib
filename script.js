@@ -12,10 +12,14 @@ document.getElementById("Btn_Add").addEventListener("click", function() {
 	document.getElementById("myform").hidden=false;
 }, false);
 
+
+let inputs = document.querySelectorAll('input');
+
 document.getElementById("Btn_Cancel").addEventListener("click", function () {
 	document.getElementById("Btn_Add").hidden=false;
 	document.getElementById("content").hidden=false;
 	document.getElementById("myform").hidden=true;
+	inputs.forEach(input =>input.value = '');
 	document.getElementById("results").hidden=true;
 }, false);
 
