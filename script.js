@@ -33,10 +33,12 @@ document.getElementById("Btn_Search").addEventListener("click", function() {
 	document.getElementById("content").hidden=false;
 }}, false);
 
+
+
 document.getElementById("Btn_Search").addEventListener("click",function fetchData() {
 	var url = urlString + intitle.value + '+inauthor:' + inauthor.value + '&printType=' + printType + apiKey;
     if (intitle.value === '' || inauthor.value === '') {
-        alert("Please enter a title and author before clicking on Search button");
+		alert("Please enter a title and author before clicking on Search button");
     } else {
 	fetch (url)
 	.then(response => {
@@ -50,9 +52,12 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 				/* "Si pas de résultats"*/
 				if(data.totalItems === 0){
 				console.log("Aucun livre n'a été trouvé")
-				document
-				.querySelector(".results").insertAdjacentHTML("afterbegin", "Aucun livre n'a été trouvé");}
-				else {
+				document.querySelector(".flexContainer2").insertAdjacentHTML("afterbegin", "Aucun livre n'a été trouvé")
+				document.getElementById("resultOk").hidden=true
+				document.getElementById("noResult").hidden=false;
+				}else {
+		document.getElementById("resultOk").hidden=false
+		document.getElementById("noResult").hidden=true		
 		console.log(data.items);
 		const html = data.items.map(googleBooks => {
 			let title = googleBooks.volumeInfo.title;
@@ -76,7 +81,7 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 		.join("");
 	console.log(html)
 	document
-	.querySelector(".flexContainer2").insertAdjacentHTML("afterbegin",html );
+	.querySelector(".flexContainer3").insertAdjacentHTML("afterbegin",html );
 
 		// Store
 		sessionStorage.setItem("bookId", "SZJ7xwEACAAJ");
