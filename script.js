@@ -54,17 +54,20 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 			let img = googleBooks.volumeInfo.imageLinks === undefined ? 'img/unavailable.png' : `${googleBooks.volumeInfo.imageLinks.thumbnail}`;
 
 			return `
+			<div class="apiItem">
+			<p><i class="fas fa-bookmark"></i></p>
 			<p class="bookTitle">Titre : ${title} </p>
 			<p class="bookId">Id : ${id} </p>
 			<p class="bookAuthor" >Auteur : ${author} </p>
 			<p class="bookDesc" >Description : ${desc} </p>
 			<p class="bookImg" ><img src="${img}" height="200" alt="${googleBooks.volumeInfo.title}" </p>
+			</div>
 			`;
 		})
 		.join("");
 	console.log(html)
 	document
-	.querySelector(".grid-container").insertAdjacentHTML("afterbegin",html );
+	.querySelector(".flexContainer2").insertAdjacentHTML("afterbegin",html );
 	}	
 })
 	.catch(error =>{
