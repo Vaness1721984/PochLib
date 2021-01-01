@@ -55,12 +55,13 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 
 			return `
 			<div class="apiItem">
-			<p><i class="fas fa-bookmark"></i></p>
+			<p ><i id="bookMark" class="fas fa-bookmark" ></i></p>
+			<p hidden><i id="trash" class="fas fa-trash" ></i></p>
 			<p class="bookTitle">Titre : ${title} </p>
 			<p class="bookId">Id : ${id} </p>
 			<p class="bookAuthor" >Auteur : ${author} </p>
 			<p class="bookDesc" >Description : ${desc} </p>
-			<p class="bookImg" ><img src="${img}" height="200" alt="${googleBooks.volumeInfo.title}" </p>
+			<p class="bookImg" ><img src="${img}" height="200" width="141.41" alt="${googleBooks.volumeInfo.title}" </p>
 			</div>
 			`;
 		})
