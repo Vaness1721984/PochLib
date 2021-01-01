@@ -4,17 +4,21 @@ var inauthor = document.getElementById("author");
 var printType = 'books';
 var apiKey = '&key=AIzaSyDayz0L9d9KbYEU17fcqMJ6dU8UDIkJXhQ';
 
+	// Retrieve
+document.getElementById("myBooks").innerHTML = sessionStorage.getItem("bookId");
+
 document.getElementById("Btn_Add").addEventListener("click", function() {
 	document.getElementById("Btn_Add").hidden=true;
-	document.getElementById("form").hidden=false;
+	document.getElementById("myform").hidden=false;
 }, false);
 
-document.getElementById("Btn_Cancel").addEventListener("click", function() {
+document.getElementById("Btn_Cancel").addEventListener("click", function () {
 	document.getElementById("Btn_Add").hidden=false;
 	document.getElementById("content").hidden=false;
-	document.getElementById("form").hidden=true;
+	document.getElementById("myform").hidden=true;
 	document.getElementById("results").hidden=true;
 }, false);
+
 
 document.getElementById("Btn_Search").addEventListener("click", function() {
 	if (intitle.value === '' || inauthor.value === '') {
@@ -22,7 +26,7 @@ document.getElementById("Btn_Search").addEventListener("click", function() {
 	document.getElementById("content").hidden=false;	
 	} else {
 	document.getElementById("results").hidden=false;
-	document.getElementById("content").hidden=true;
+	document.getElementById("content").hidden=false;
 }}, false);
 
 document.getElementById("Btn_Search").addEventListener("click",function fetchData() {
@@ -58,8 +62,8 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 			<p ><i id="bookMark" class="fas fa-bookmark" ></i></p>
 			<p hidden><i id="trash" class="fas fa-trash" ></i></p>
 			<p class="bookTitle">Titre : ${title} </p>
-			<p class="bookId">Id : ${id} </p>
-			<p class="bookAuthor" >Auteur : ${author} </p>
+			<p id="bookId" class="bookId">Id : ${id} </p>
+			<p id="bookAuthor" class="bookAuthor" >Auteur : ${author} </p>
 			<p class="bookDesc" >Description : ${desc} </p>
 			<p class="bookImg" ><img src="${img}" height="200" width="141.41" alt="${googleBooks.volumeInfo.title}" </p>
 			</div>
@@ -69,10 +73,18 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 	console.log(html)
 	document
 	.querySelector(".flexContainer2").insertAdjacentHTML("afterbegin",html );
+
+		// Store
+		sessionStorage.setItem("bookId", "SZJ7xwEACAAJ");
+	
+
+
 	}	
 })
 	.catch(error =>{
 		console.log(error);
 	})
 }
+
 });
+

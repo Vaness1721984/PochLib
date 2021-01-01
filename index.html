@@ -11,30 +11,31 @@
 		<script src="https://kit.fontawesome.com/746dfe7b80.js" crossorigin="anonymous"></script>
   	</head>
   	<body>
-		<div id="myBooks">
+		<div id="Books">
 			<h1 class="title">Poch'Lib</h1>
 			<h2 class="h2">Nouveau livre</h2>
 				<div class ="flex-container" >
 					<button class="btn1" id="Btn_Add" onclick="">Ajouter un livre</button>
-					<div id="form" hidden>
+					<div id="myform" hidden>
 						<label for="title">Titre du livre</label><br>
-						<input class="srch" id="title" type="search" required></input><br>
+						<input class="srch" id="title" type="search" ></input><br>
 						<label for="author">Auteur</label><br>
-						<input class="srch" id="author" type="search" required></input><br>
+						<input class="srch" id="author" type="search" ></input><br>
 						<button class ="btn2" id="Btn_Search" type ="submit" onclick="">Rechercher</button><br>
-						<button class ="btn3" id="Btn_Cancel" onclick="">Annuler</button>
+						<button class ="btn3" id="Btn_Cancel"  onclick="">Annuler</button>
 					</div>
 				</div>
 			<hr align>
+			<div id="results" hidden>
+				<h2 class="h2" >Résultats de recherche</h2>
+				<div class="flexContainer2"></div>
+			</div>
 			<div id="content">
 				<h2 >Ma poch'liste</h2>
 			</div>
-			<div id="results" hidden>
-				<h2 class="h2" >Résultats de recherche</h2>
-				<div class="flexContainer2">
-					<!-- <i class="fas fa-trash"></i> -->		
-				</div>
-			</div>
+			<!--TEST SESSION STORAGE-->
+			<div id="myBooks"></div>
+
 		<script src="script.js"></script>
   	</body>
 </html>
