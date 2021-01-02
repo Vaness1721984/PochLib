@@ -1,10 +1,9 @@
+// Initialization of API variables //
 var urlString = 'https://www.googleapis.com/books/v1/volumes?q=';
 var intitle = document.getElementById("title");
 var inauthor = document.getElementById("author");
 var printType = 'books';
 var apiKey = '&key=AIzaSyDayz0L9d9KbYEU17fcqMJ6dU8UDIkJXhQ';
-
-
 
 
 document.getElementById("Btn_Add").addEventListener("click", function() {
@@ -13,14 +12,17 @@ document.getElementById("Btn_Add").addEventListener("click", function() {
 }, false);
 
 
-let inputs = document.querySelectorAll('input');
-
 document.getElementById("Btn_Cancel").addEventListener("click", function () {
+
 	document.getElementById("Btn_Add").hidden=false;
 	document.getElementById("content").hidden=false;
 	document.getElementById("myform").hidden=true;
-	inputs.forEach(input =>input.value = '');
 	document.getElementById("results").hidden=true;
+
+// Delete input after clicking on Cancel Button //
+	let inputs = document.querySelectorAll('input');
+	inputs.forEach(input =>input.value = '');
+	
 }, false);
 
 
@@ -49,36 +51,36 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 		return response.json();
 	})
 	.then(data => {
-				// Si pas de résultats afficher "Aucun livre n'a été trouvé" dans flexContainer2 //
+				// If no book returned display "Aucun livre n'a été trouvé" in flexContainer2 //
 				if(data.totalItems === 0){
 				console.log("Aucun livre n'a été trouvé")
 				document.querySelector(".flexContainer2").insertAdjacentHTML("afterbegin", "Aucun livre n'a été trouvé")
-				// cacher div "resultOk" //
+				// If no book returned hide div "resultOk" //
 				document.getElementById("resultOk").hidden=true
 				document.getElementById("noResult").hidden=false;
 				}else {
-					// cacher div "noResult"// 
+					// If results return books hide div "noResult"// 
 		document.getElementById("resultOk").hidden=false
 		document.getElementById("noResult").hidden=true		
 		console.log(data.items);
-		// Définition des variables API à récupérer //
+		// Definition of variable to retrieve with API //
 		const html = data.items.map(googleBooks => {
-			// Variable "Titre du Livre"//
+			// Creation of a variable "Titre du Livre"//
 			let title = googleBooks.volumeInfo.title;
-			// Variable "Id du Livre" //
+			// Creation of a variable "Id du Livre" //
 			let id = googleBooks.id;
-			// Variable "Auteur du Livre" limité à un auteur si plusieurs auteurs si pas définie afficher "Information manquante"//
+			// Creation of a variable "Auteur du Livre" limited to 1 author max if no author available display "Information manquante"//
 			let author = typeof googleBooks.volumeInfo.authors === 'undefined' ? 'Information manquante' : googleBooks.volumeInfo.authors[0];
-			// Variable "Description du Livre" limitée à 200 caractères si pas définie afficher "Information manquante"//
+			// Creation of a variable "Description du Livre" limited to 200 caracters if no description available display "Information manquante"//
 			let desc = typeof googleBooks.volumeInfo.description === 'undefined' ? 'Information manquante' : googleBooks.volumeInfo.description.substring(0,199);
-			// Variable "Image du Livre" si pas définie afficher image "Coming Soon" //
+			// Creation of a variable "Image du Livre" if no thumnail available display image "Coming Soon" instead //
 			let img = googleBooks.volumeInfo.imageLinks === undefined ? 'img/unavailable.png' : `${googleBooks.volumeInfo.imageLinks.thumbnail}`;
-			// Création d'une div dynamique pour stocker les résultats avec une structure HTML //
+			// Creation of a dynamic div to store results with HTML structure//
 			return `
 			<div class="apiItem">
 			<button id ="${id}" onclick="reply_click(this.id)"><i class="fas fa-bookmark"></i></button>
 			<button hidden><i class="fas fa-trash" ></i></button>
-			<p class="bookTitle">Titre : ${title} </p>
+			<p id="apiTitle" class="bookTitle">Titre : ${title} </p>
 			<p class="bookId">Id : ${id} </p>
 			<p class="bookAuthor" >Auteur : ${author} </p>
 			<p class="bookDesc" >Description : ${desc} </p>
@@ -89,9 +91,9 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 	
 		})
 		.join("");
-		// Affichage des résultats selon HTML défini//
+		// Display results based on HTML//
 	console.log(html);
-	// Si résultats retournés afficher les résultats dans div flexContainer3 //
+	// If results exist display them in div flexContainer3 //
 	document
 	.querySelector(".flexContainer3").insertAdjacentHTML("afterbegin",html );
 	console.log(JSON.stringify(data.items));
@@ -102,7 +104,7 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 	/*document.getElementById("myBooks").innerHTML = sessionStorage.getItem("bookId");*/
 	})
 
-	// Affichage des erreurs avec console.log//
+	// Display errors in console.log//
 	.catch(error =>{
 		console.log(error);
 	})
@@ -111,9 +113,13 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 });
 
 // Get Id on bookmark//
+
 function reply_click(clicked_id)
 {
-	sessionStorage.setItem("bookId",clicked_id);
+	// console.log(clicked_id); //
+	var bookId = {"bookId" : clicked_id};
+	sessionStorage.setItem(clicked_id,JSON.stringify(bookId));
+
 }
 
 
