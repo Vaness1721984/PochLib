@@ -77,9 +77,9 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 			let img = googleBooks.volumeInfo.imageLinks === undefined ? 'img/unavailable.png' : `${googleBooks.volumeInfo.imageLinks.thumbnail}`;
 			// Creation of a dynamic div to store results with HTML structure//
 			return `
-			<div class="apiItem">
-			<button id ="${id}" onclick="reply_click(this.id)"><i class="fas fa-bookmark"></i></button>
-			<button hidden><i class="fas fa-trash" ></i></button>
+			<div id ="demo" class="apiItem" >
+			<button id ="${id}" onclick="addToBookmark(this.id)"><i class="fas fa-bookmark"></i></button>
+			<button id ="${id}" onclick="addToTrash(this.id)"> <i class="fas fa-trash" ></i></button>
 			<p id="apiTitle" class="bookTitle">Titre : ${title} </p>
 			<p class="bookId">Id : ${id} </p>
 			<p class="bookAuthor" >Auteur : ${author} </p>
@@ -88,7 +88,6 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 			</div>
 			`;
 
-	
 		})
 		.join("");
 		// Display results based on HTML//
@@ -96,12 +95,9 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 	// If results exist display them in div flexContainer3 //
 	document
 	.querySelector(".flexContainer3").insertAdjacentHTML("afterbegin",html );
-	console.log(JSON.stringify(data.items));
 
 }
 
-		// Retrieve sessionStorage //
-	/*document.getElementById("myBooks").innerHTML = sessionStorage.getItem("bookId");*/
 	})
 
 	// Display errors in console.log//
@@ -112,14 +108,32 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 	}
 });
 
-// Get Id on bookmark//
 
-function reply_click(clicked_id)
+// Add Item to Session Storage //
+function addToBookmark(clicked_id)
 {
-	// console.log(clicked_id); //
-	var bookId = {"bookId" : clicked_id};
+	var bookId = 
+	{
+		"BookId" : clicked_id,
+	};
+		// Check if a key has already been added to Session Storage //
+if (clicked_id in sessionStorage){
+	alert("Vous ne pouvez ajouter deux fois le même livre");
+	} else {
+	alert(clicked_id + " a été ajouté à la Poch\'liste");
+			}
 	sessionStorage.setItem(clicked_id,JSON.stringify(bookId));
 
+}
+// Remove Item from Session Storage //
+function addToTrash(clicked_id)
+{
+	var bookId = 
+	{
+		"Add_to_trash" : clicked_id,
+	};
+	sessionStorage.removeItem(clicked_id,JSON.stringify(bookId));
+	alert(clicked_id + " a été enlevé de la Poch\'liste");
 }
 
 
