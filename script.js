@@ -77,10 +77,10 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 			let img = googleBooks.volumeInfo.imageLinks === undefined ? 'img/unavailable.png' : `${googleBooks.volumeInfo.imageLinks.thumbnail}`;
 			// Creation of a dynamic div to store results with HTML structure//
 			return `
-			<div id ="demo" class="apiItem" >
-			<button id ="${id}" onclick="addToBookmark(this.id)"><i class="fas fa-bookmark"></i></button>
-			<button id ="${id}" onclick="addToTrash(this.id)"> <i class="fas fa-trash" ></i></button>
-			<p id="apiTitle" class="bookTitle">Titre : ${title} </p>
+			<div  class="apiItem" >
+			<div class="test" id ="B${id}" ><button class="btn" id ="${id}" onclick="addToBookmark(this.id)" ><i class="fas fa-bookmark"></i></button></div>
+			<div class="test" id ="T${id}" hidden><button class="btn" id ="${id}" onclick="addToTrash(this.id)"><i class="fas fa-trash"></i></button></div> 
+			<p class="bookTitle">Titre : ${title} </p>
 			<p class="bookId">Id : ${id} </p>
 			<p class="bookAuthor" >Auteur : ${author} </p>
 			<p class="bookDesc" >Description : ${desc} </p>
@@ -96,9 +96,9 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 	document
 	.querySelector(".flexContainer3").insertAdjacentHTML("afterbegin",html );
 
-}
+	}
 
-	})
+})
 
 	// Display errors in console.log//
 	.catch(error =>{
@@ -112,6 +112,11 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 // Add Item to Session Storage //
 function addToBookmark(clicked_id)
 {
+	// Hide bookmark icon after click on bookmark icon//
+	document.getElementById("B"+clicked_id).hidden = true;
+	// Display trash icon after click on bookmark icon//
+	document.getElementById("T"+clicked_id).hidden = false;
+
 	var bookId = 
 	{
 		"BookId" : clicked_id,
@@ -123,18 +128,29 @@ if (clicked_id in sessionStorage){
 	alert(clicked_id + " a été ajouté à la Poch\'liste");
 			}
 	sessionStorage.setItem(clicked_id,JSON.stringify(bookId));
-
 }
+
+
+
 // Remove Item from Session Storage //
 function addToTrash(clicked_id)
 {
+	// Display bookmark icon after click on trash icon //
+	document.getElementById("B"+clicked_id).hidden = false;
+	// Hide trash icon after click on trash icon //
+	document.getElementById("T"+clicked_id).hidden = true;
 	var bookId = 
 	{
 		"Add_to_trash" : clicked_id,
 	};
+	if (clicked_id in sessionStorage){
+		alert(clicked_id + " a été enlevé de la Poch\'liste");
+		} else {
+		alert(clicked_id + " a déjà été enlevé de la Poch\'liste");
+				}
 	sessionStorage.removeItem(clicked_id,JSON.stringify(bookId));
-	alert(clicked_id + " a été enlevé de la Poch\'liste");
 }
+
 
 
 

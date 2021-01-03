@@ -112,15 +112,18 @@ align-self:start;
 	position:relative;
 } 
 
-/*
-.fas {
+
+
+.btn {
 font-size:2em;
+border: none;
 color:rgb(68,148,135);
 position:absolute;
-top:0.8em;
-right:1.2em;
+top:0.6em;
+right:0.6em;
 }
-*/
+
+
 .bookTitle{
 font-size:small;
 font-weight:500;
