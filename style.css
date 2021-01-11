@@ -113,6 +113,27 @@ align-self:start;
 } 
 
 
+.flexContainer4 {
+	display:flex;
+	flex-wrap:wrap;
+	margin-left:-20px;
+	margin-top:-20px;
+}
+
+.flexContainer4 .apiItem {
+	background:rgb(239,240,244);
+	text-align:right;
+	border:black solid;
+	border-width:thin;
+	flex:1 0 calc(50% - 20px);
+	box-sizing:border-box;
+	padding-left:20px;
+	padding-top:10px;
+	padding-right:35px;
+	margin-left:20px;
+	margin-top:20px;
+	position:relative;
+} 
 
 .btn {
 font-size:2em;
@@ -122,7 +143,6 @@ position:absolute;
 top:0.6em;
 right:0.6em;
 }
-
 
 .bookTitle{
 font-size:small;

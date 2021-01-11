@@ -1,5 +1,5 @@
 // Initialization of API variables //
-var urlString = 'https://www.googleapis.com/books/v1/volumes?q=';
+var urlString = 'https://www.googleapis.com/books/v1/volumes';
 var intitle = document.getElementById("title");
 var inauthor = document.getElementById("author");
 var printType = 'books';
@@ -38,7 +38,7 @@ document.getElementById("Btn_Search").addEventListener("click", function() {
 
 
 document.getElementById("Btn_Search").addEventListener("click",function fetchData() {
-	var url = urlString + intitle.value + '+inauthor:' + inauthor.value + '&printType=' + printType + apiKey;
+	var url = urlString + '?q=' + intitle.value + '+inauthor:' + inauthor.value + '&printType=' + printType + apiKey;
     if (intitle.value === '' || inauthor.value === '') {
 		alert("Please enter a title and author before clicking on Search button");
     } else {
@@ -61,25 +61,25 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 				}else {
 					// If results return books hide div "noResult"// 
 		document.getElementById("resultOk").hidden=false
-		document.getElementById("noResult").hidden=true		
+		document.getElementById("noResult").hidden=true	
 		console.log(data.items);
 		// Definition of variable to retrieve with API //
 		const html = data.items.map(googleBooks => {
 			// Creation of a variable "Titre du Livre"//
-			let title = googleBooks.volumeInfo.title;
+			const title = googleBooks.volumeInfo.title;
 			// Creation of a variable "Id du Livre" //
-			let id = googleBooks.id;
+			const id = googleBooks.id;
 			// Creation of a variable "Auteur du Livre" limited to 1 author max if no author available display "Information manquante"//
-			let author = typeof googleBooks.volumeInfo.authors === 'undefined' ? 'Information manquante' : googleBooks.volumeInfo.authors[0];
+			const author = typeof googleBooks.volumeInfo.authors === 'undefined' ? 'Information manquante' : googleBooks.volumeInfo.authors[0];
 			// Creation of a variable "Description du Livre" limited to 200 caracters if no description available display "Information manquante"//
-			let desc = typeof googleBooks.volumeInfo.description === 'undefined' ? 'Information manquante' : googleBooks.volumeInfo.description.substring(0,199);
+			const desc = typeof googleBooks.volumeInfo.description === 'undefined' ? 'Information manquante' : googleBooks.volumeInfo.description.substring(0,199);
 			// Creation of a variable "Image du Livre" if no thumnail available display image "Coming Soon" instead //
-			let img = googleBooks.volumeInfo.imageLinks === undefined ? 'img/unavailable.png' : `${googleBooks.volumeInfo.imageLinks.thumbnail}`;
+			const img = googleBooks.volumeInfo.imageLinks === undefined ? 'img/unavailable.png' : `${googleBooks.volumeInfo.imageLinks.thumbnail}`;
 			// Creation of a dynamic div to store results with HTML structure//
 			return `
-			<div  class="apiItem" >
-			<div class="test" id ="B${id}" ><button class="btn" id ="${id}" onclick="addToBookmark(this.id)" ><i class="fas fa-bookmark"></i></button></div>
-			<div class="test" id ="T${id}" hidden><button class="btn" id ="${id}" onclick="addToTrash(this.id)"><i class="fas fa-trash"></i></button></div> 
+			<div id ="D${id}" class="apiItem" >
+			<div class="test" id ="B${id}" ><button class="btn" onclick="addToBookmark('${id}')" ><i class="fas fa-bookmark"></i></button></div>
+			<div class="test" id ="T${id}" hidden><button class="btn"  onclick="addToTrash('${id}')"><i class="fas fa-trash"></i></button></div> 
 			<p class="bookTitle">Titre : ${title} </p>
 			<p class="bookId">Id : ${id} </p>
 			<p class="bookAuthor" >Auteur : ${author} </p>
@@ -95,7 +95,6 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 	// If results exist display them in div flexContainer3 //
 	document
 	.querySelector(".flexContainer3").insertAdjacentHTML("afterbegin",html );
-
 	}
 
 })
@@ -104,9 +103,9 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 	.catch(error =>{
 		console.log(error);
 	})
-
 	}
 });
+
 
 
 // Add Item to Session Storage //
@@ -127,6 +126,7 @@ if (clicked_id in sessionStorage){
 	} else {
 	alert(clicked_id + " a été ajouté à la Poch\'liste");
 			}
+
 	sessionStorage.setItem(clicked_id,JSON.stringify(bookId));
 }
 
@@ -149,9 +149,68 @@ function addToTrash(clicked_id)
 		alert(clicked_id + " a déjà été enlevé de la Poch\'liste");
 				}
 	sessionStorage.removeItem(clicked_id,JSON.stringify(bookId));
-}
+			}
 
 
 
 
 
+
+			// Fetch selected items from Session Storage //
+	window.addEventListener('load', function fetchData() {
+		let getKeys = Object.keys(sessionStorage);
+		console.log(getKeys);
+
+		var url = urlString + '/' + getKeys;
+		fetch (url)
+		.then(response => {
+			console.log(response);
+			if(!response.ok){
+				throw Error("ERROR");
+			}
+			return response.json();
+		})
+		.then(function appendData (data) {
+	
+			console.log(data.volumeInfo);
+
+			const title = data.volumeInfo.title;
+			const id = data.id;
+			const author = typeof data.volumeInfo.authors === 'undefined' ? 'Information manquante' : data.volumeInfo.authors[0];
+			const desc = typeof data.volumeInfo.description === 'undefined' ? 'Information manquante' : data.volumeInfo.description.substring(0,199);
+			const img = data.volumeInfo.imageLinks === undefined ? 'img/unavailable.png' : `${data.volumeInfo.imageLinks.thumbnail}`;
+const html2 = 
+
+`
+<div id ="D${id}" class="apiItem" >
+<div class="test" id ="T${id}" ><button class="btn"  onclick="addToTrash('${id}')"><i class="fas fa-trash"></i></button></div> 
+<p class="bookTitle">Titre : ${title} </p>
+<p class="bookId">Id : ${id} </p>
+<p class="bookAuthor" >Auteur : ${author} </p>
+<p class="bookDesc" >Description : ${desc} </p>
+<p class="bookImg" ><img src="${img}" height="200" width="141.41" alt="${title}" </p>
+</div>
+`;
+		
+	console.log(html2);
+
+	document
+	.querySelector(".flexContainer4").insertAdjacentHTML("afterbegin",html2 );
+		})
+	.catch(error =>{
+		console.log(error);
+	});
+});
+
+
+
+
+
+
+
+
+
+ 
+	
+	
+	
