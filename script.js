@@ -63,33 +63,35 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 		document.getElementById("resultOk").hidden=false
 		document.getElementById("noResult").hidden=true	
 		console.log(data.items);
-		// Definition of variable to retrieve with API //
-		const html = data.items.map(googleBooks => {
-			// Creation of a variable "Titre du Livre"//
-			const title = googleBooks.volumeInfo.title;
-			// Creation of a variable "Id du Livre" //
-			const id = googleBooks.id;
-			// Creation of a variable "Auteur du Livre" limited to 1 author max if no author available display "Information manquante"//
-			const author = typeof googleBooks.volumeInfo.authors === 'undefined' ? 'Information manquante' : googleBooks.volumeInfo.authors[0];
-			// Creation of a variable "Description du Livre" limited to 200 caracters if no description available display "Information manquante"//
-			const desc = typeof googleBooks.volumeInfo.description === 'undefined' ? 'Information manquante' : googleBooks.volumeInfo.description.substring(0,199);
-			// Creation of a variable "Image du Livre" if no thumnail available display image "Coming Soon" instead //
-			const img = googleBooks.volumeInfo.imageLinks === undefined ? 'img/unavailable.png' : `${googleBooks.volumeInfo.imageLinks.thumbnail}`;
-			// Creation of a dynamic div to store results with HTML structure//
-			return `
-			<div id ="D${id}" class="apiItem" >
-			<div class="test" id ="B${id}" ><button class="btn" onclick="addToBookmark('${id}')" ><i class="fas fa-bookmark"></i></button></div>
-			<div class="test" id ="T${id}" hidden><button class="btn"  onclick="addToTrash('${id}')"><i class="fas fa-trash"></i></button></div> 
-			<p class="bookTitle">Titre : ${title} </p>
-			<p class="bookId">Id : ${id} </p>
-			<p class="bookAuthor" >Auteur : ${author} </p>
-			<p class="bookDesc" >Description : ${desc} </p>
-			<p class="bookImg" ><img src="${img}" height="200" width="141.41" alt="${googleBooks.volumeInfo.title}" </p>
-			</div>
-			`;
 
-		})
-		.join("");
+// Definition of variable to retrieve with API //
+const html = data.items.map(googleBooks => {
+	// Creation of a variable "Titre du Livre"//
+	let title = googleBooks.volumeInfo.title;
+	// Creation of a variable "Id du Livre" //
+	let id = googleBooks.id;
+	// Creation of a variable "Auteur du Livre" limited to 1 author max if no author available display "Information manquante"//
+	let author = typeof googleBooks.volumeInfo.authors === 'undefined' ? 'Information manquante' : googleBooks.volumeInfo.authors[0];
+	// Creation of a variable "Description du Livre" limited to 200 caracters if no description available display "Information manquante"//
+	let desc = typeof googleBooks.volumeInfo.description === 'undefined' ? 'Information manquante' : googleBooks.volumeInfo.description.substring(0,199);
+	// Creation of a variable "Image du Livre" if no thumnail available display image "Coming Soon" instead //
+	let img = googleBooks.volumeInfo.imageLinks === undefined ? 'img/unavailable.png' : `${googleBooks.volumeInfo.imageLinks.thumbnail}`;
+	// Creation of a dynamic div to store results with HTML structure//
+	return `
+	<div  class="apiItem" >
+	<div class="test" id ="B${id}" ><button class="btn" id ="${id}" onclick="addToBookmark(this.id)" ><i class="fas fa-bookmark"></i></button></div>
+	<div class="test" id ="T${id}" hidden><button class="btn" id ="${id}" onclick="addToTrash(this.id)"><i class="fas fa-trash"></i></button></div> 
+	<p class="bookTitle">Titre : ${title} </p>
+	<p class="bookId">Id : ${id} </p>
+	<p class="bookAuthor" >Auteur : ${author} </p>
+	<p class="bookDesc" >Description : ${desc} </p>
+	<p class="bookImg" ><img src="${img}" height="200" width="141.41" alt="${googleBooks.volumeInfo.title}" </p>
+	</div>
+	`;
+
+})
+.join("");
+
 		// Display results based on HTML//
 	console.log(html);
 	// If results exist display them in div flexContainer3 //
@@ -111,10 +113,10 @@ document.getElementById("Btn_Search").addEventListener("click",function fetchDat
 // Add Item to Session Storage //
 function addToBookmark(clicked_id)
 {
-	// Hide bookmark icon after click on bookmark icon//
+	/* Hide bookmark icon after click on bookmark icon
 	document.getElementById("B"+clicked_id).hidden = true;
-	// Display trash icon after click on bookmark icon//
-	document.getElementById("T"+clicked_id).hidden = false;
+	 Display trash icon after click on bookmark icon
+	document.getElementById("T"+clicked_id).hidden = false;*/
 
 	var bookId = 
 	{
@@ -126,19 +128,18 @@ if (clicked_id in sessionStorage){
 	} else {
 	alert(clicked_id + " a été ajouté à la Poch\'liste");
 			}
-
 	sessionStorage.setItem(clicked_id,JSON.stringify(bookId));
 }
-
 
 
 // Remove Item from Session Storage //
 function addToTrash(clicked_id)
 {
-	// Display bookmark icon after click on trash icon //
+	/* Display bookmark icon after click on trash icon 
 	document.getElementById("B"+clicked_id).hidden = false;
-	// Hide trash icon after click on trash icon //
-	document.getElementById("T"+clicked_id).hidden = true;
+	Hide trash icon after click on trash icon 
+	document.getElementById("T"+clicked_id).hidden = true;*/
+
 	var bookId = 
 	{
 		"Add_to_trash" : clicked_id,
@@ -153,15 +154,14 @@ function addToTrash(clicked_id)
 
 
 
-
-
-
 			// Fetch selected items from Session Storage //
 	window.addEventListener('load', function fetchData() {
 		let getKeys = Object.keys(sessionStorage);
 		console.log(getKeys);
-
+		
 		var url = urlString + '/' + getKeys;
+		keysLength = getKeys.length ;
+		if (keysLength > 0)  {
 		fetch (url)
 		.then(response => {
 			console.log(response);
@@ -191,7 +191,6 @@ const html2 =
 <p class="bookImg" ><img src="${img}" height="200" width="141.41" alt="${title}" </p>
 </div>
 `;
-		
 	console.log(html2);
 
 	document
@@ -200,8 +199,9 @@ const html2 =
 	.catch(error =>{
 		console.log(error);
 	});
-});
-
+}
+	});
+	
 
 
 

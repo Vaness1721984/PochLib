@@ -164,9 +164,22 @@ text-align: left;
 }
 
 .bookDesc{
-font-size:small;
-font-weight:300;
-text-align: left;
+	font-size:small;
+	font-weight:300;
+	text-align: left;
+	}
+
+
+b {
+	font-size:small;
+	font-weight:300;
+	text-align: left;
+}
+
+p{
+	font-size:small;
+	font-weight:300;
+	text-align: left;
 }
 
 .bookImg{
