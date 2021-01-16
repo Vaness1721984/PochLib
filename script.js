@@ -1,216 +1,148 @@
 // Initialization of API variables //
-var urlString = 'https://www.googleapis.com/books/v1/volumes';
-var intitle = document.getElementById("title");
-var inauthor = document.getElementById("author");
-var printType = 'books';
-var apiKey = '&key=AIzaSyDayz0L9d9KbYEU17fcqMJ6dU8UDIkJXhQ';
+const urlString = "https://www.googleapis.com/books/v1/volumes";
+const intitle = document.getElementById("title");
+const inauthor = document.getElementById("author");
+const printType = "books";
+const apiKey = "&key=AIzaSyDayz0L9d9KbYEU17fcqMJ6dU8UDIkJXhQ";
 
+document.getElementById("Btn_Add").addEventListener(
+  "click",
+  function () {
+    document.getElementById("Btn_Add").hidden = true;
+    document.getElementById("myform").hidden = false;
+  },
+  false
+);
 
-document.getElementById("Btn_Add").addEventListener("click", function() {
-	document.getElementById("Btn_Add").hidden=true;
-	document.getElementById("myform").hidden=false;
-}, false);
+document.getElementById("Btn_Cancel").addEventListener(
+  "click",
+  function () {
+    console.clear();
+    document.getElementById("Btn_Add").hidden = false;
+    document.getElementById("content").hidden = false;
+    document.getElementById("myform").hidden = true;
+    document.getElementById("results").hidden = true;
 
+    // Delete input after clicking on Cancel Button //
+    let inputs = document.querySelectorAll("input");
+    inputs.forEach((input) => (input.value = ""));
+  },
+  false
+);
 
-document.getElementById("Btn_Cancel").addEventListener("click", function () {
-
-	document.getElementById("Btn_Add").hidden=false;
-	document.getElementById("content").hidden=false;
-	document.getElementById("myform").hidden=true;
-	document.getElementById("results").hidden=true;
-
-// Delete input after clicking on Cancel Button //
-	let inputs = document.querySelectorAll('input');
-	inputs.forEach(input =>input.value = '');
-	
-}, false);
-
-
-document.getElementById("Btn_Search").addEventListener("click", function() {
-	if (intitle.value === '' || inauthor.value === '') {
-	document.getElementById("results").hidden=true;
-	document.getElementById("content").hidden=false;	
-	} else {
-	document.getElementById("results").hidden=false;
-	document.getElementById("content").hidden=false;
-}}, false);
-
-
-
-document.getElementById("Btn_Search").addEventListener("click",function fetchData() {
-	var url = urlString + '?q=' + intitle.value + '+inauthor:' + inauthor.value + '&printType=' + printType + apiKey;
-    if (intitle.value === '' || inauthor.value === '') {
-		alert("Please enter a title and author before clicking on Search button");
+document.getElementById("Btn_Search").addEventListener(
+  "click",
+  function () {
+    if (intitle.value === "" || inauthor.value === "") {
+      document.getElementById("results").hidden = true;
+      document.getElementById("content").hidden = false;
     } else {
-	fetch (url)
-	.then(response => {
-		console.log(response);
-		if(!response.ok){
-			throw Error("ERROR");
-		}
-		return response.json();
-	})
-	.then(data => {
-				// If no book returned display "Aucun livre n'a été trouvé" in flexContainer2 //
-				if(data.totalItems === 0){
-				console.log("Aucun livre n'a été trouvé")
-				document.querySelector(".flexContainer2").insertAdjacentHTML("afterbegin", "Aucun livre n'a été trouvé")
-				// If no book returned hide div "resultOk" //
-				document.getElementById("resultOk").hidden=true
+      document.getElementById("results").hidden = false;
+      document.getElementById("content").hidden = false;
+    }
+  },
+  false
+);
+
+
+document
+  .getElementById("Btn_Search")
+  .addEventListener("click", function fetchData() {
+// clear the content of div results before fetching data
+    document.getElementById("resultOk").innerHTML = "";
+    document.getElementById("noResult").innerHTML = "";
+      let url =
+      urlString +
+      "?q=" +
+      intitle.value +
+      "+inauthor:" +
+      inauthor.value +
+      "&printType=" +
+      printType +
+      apiKey;
+    if (intitle.value === "" || inauthor.value === "") {
+      alert("Please enter a title and author before clicking on Search button");
+    } else {
+      fetch(url)
+        .then((response) => {
+          console.log(response);
+          if (!response.ok) {
+            throw Error("ERROR");
+          }
+          return response.json();
+        })
+        .then(books => 
+          showBooks(books.items)
+          );
+      }
+    })
+   
+
+    showBooks = getBooks => {
+      // If results exist display them in div flexContainer3 //
+      const booksDiv = document.querySelector(".flexContainer3");
+      // If no book returned display "Aucun livre n'a été trouvé" in flexContainer2
+      if (typeof(getBooks) === 'undefined' ) {
+        console.log("Aucun livre n'a été trouvé")
+        document.querySelector(".flexContainer2").insertAdjacentHTML("afterbegin", "Aucun livre n'a été trouvé")
+        // If no book returned hide div "resultOk"
+        document.getElementById("resultOk").hidden=true;
 				document.getElementById("noResult").hidden=false;
-				}else {
-					// If results return books hide div "noResult"// 
-		document.getElementById("resultOk").hidden=false
-		document.getElementById("noResult").hidden=true	
-		console.log(data.items);
-
-// Definition of variable to retrieve with API //
-const html = data.items.map(googleBooks => {
-	// Creation of a variable "Titre du Livre"//
-	let title = googleBooks.volumeInfo.title;
-	// Creation of a variable "Id du Livre" //
-	let id = googleBooks.id;
-	// Creation of a variable "Auteur du Livre" limited to 1 author max if no author available display "Information manquante"//
-	let author = typeof googleBooks.volumeInfo.authors === 'undefined' ? 'Information manquante' : googleBooks.volumeInfo.authors[0];
-	// Creation of a variable "Description du Livre" limited to 200 caracters if no description available display "Information manquante"//
-	let desc = typeof googleBooks.volumeInfo.description === 'undefined' ? 'Information manquante' : googleBooks.volumeInfo.description.substring(0,199);
-	// Creation of a variable "Image du Livre" if no thumnail available display image "Coming Soon" instead //
-	let img = googleBooks.volumeInfo.imageLinks === undefined ? 'img/unavailable.png' : `${googleBooks.volumeInfo.imageLinks.thumbnail}`;
-	// Creation of a dynamic div to store results with HTML structure//
-	return `
-	<div  class="apiItem" >
-	<div class="test" id ="B${id}" ><button class="btn" id ="${id}" onclick="addToBookmark(this.id)" ><i class="fas fa-bookmark"></i></button></div>
-	<div class="test" id ="T${id}" hidden><button class="btn" id ="${id}" onclick="addToTrash(this.id)"><i class="fas fa-trash"></i></button></div> 
-	<p class="bookTitle">Titre : ${title} </p>
-	<p class="bookId">Id : ${id} </p>
-	<p class="bookAuthor" >Auteur : ${author} </p>
-	<p class="bookDesc" >Description : ${desc} </p>
-	<p class="bookImg" ><img src="${img}" height="200" width="141.41" alt="${googleBooks.volumeInfo.title}" </p>
-	</div>
-	`;
-
-})
-.join("");
-
-		// Display results based on HTML//
-	console.log(html);
-	// If results exist display them in div flexContainer3 //
-	document
-	.querySelector(".flexContainer3").insertAdjacentHTML("afterbegin",html );
-	}
-
-})
-
-	// Display errors in console.log//
-	.catch(error =>{
-		console.log(error);
-	})
-	}
-});
-
-
+      } else {
+        // If results return books hide div "noResult" 
+        document.getElementById("resultOk").hidden=false ;
+        document.getElementById("noResult").hidden=true	;
+      console.log(getBooks);
+      getBooks.forEach(book => {
+      // Definition of variable to retrieve with API
+      // Creation of a variable "Titre du Livre"
+        let title = book.volumeInfo.title;
+      // Creation of a variable "Id du Livre"
+        let id = book.id;
+        // Creation of a variable "Auteur du Livre" limited to 1 author max if no author available display "Information manquante"
+        let author = typeof book.volumeInfo.authors === 'undefined' ? 'Information manquante' : book.volumeInfo.authors[0];
+        // Creation of a variable "Description du Livre" limited to 200 caracters if no description available display "Information manquante"
+        let desc = typeof book.volumeInfo.description === 'undefined' ? 'Information manquante' : book.volumeInfo.description.substring(0,199);
+        // Creation of a variable "Image du Livre" if no thumnail available display image "Coming Soon" instead
+        let img = book.volumeInfo.imageLinks === undefined ? 'img/unavailable.png' : `${book.volumeInfo.imageLinks.thumbnail}`;
+        // Creation of a dynamic div to store results with HTML structure
+        let bookElement = document.createElement('div');
+        bookElement.className = 'apiItem';
+        bookElement.innerHTML = 
+        `
+        <div class="test" id ="B${id}" ><button class="btn" id ="${id}" onclick="addToBookmark(this.id)" ><i class="fas fa-bookmark"></i></button></div>
+        <p class="bookTitle">Titre : ${title} </p>
+        <p class="bookId">Id : ${id} </p>
+        <p class="bookAuthor" >Auteur : ${author} </p>
+        <p class="bookDesc" >Description : ${desc} </p>
+        <p class="bookImg" ><img src="${img}" height="200" width="141.41" alt="${title}" </p>
+        `;
+        booksDiv.append(bookElement);
+      });
+    }
+    }
 
 // Add Item to Session Storage //
-function addToBookmark(clicked_id)
-{
-	/* Hide bookmark icon after click on bookmark icon
-	document.getElementById("B"+clicked_id).hidden = true;
-	 Display trash icon after click on bookmark icon
-	document.getElementById("T"+clicked_id).hidden = false;*/
+function addToBookmark(clicked_id) {
 
-	var bookId = 
-	{
-		"BookId" : clicked_id,
-	};
-		// Check if a key has already been added to Session Storage //
-if (clicked_id in sessionStorage){
-	alert("Vous ne pouvez ajouter deux fois le même livre");
-	} else {
-	alert(clicked_id + " a été ajouté à la Poch\'liste");
-			}
-	sessionStorage.setItem(clicked_id,JSON.stringify(bookId));
+  let bookmarks = JSON.parse(sessionStorage.getItem("bookmarks"));
+  if (bookmarks === null) {
+    bookmarks = [];
+  }
+  if (bookmarks.some(bookmark => bookmark === clicked_id)) {
+    alert("Vous ne pouvez ajouter deux fois le même livre");
+  } else {
+    bookmarks.push(clicked_id);
+  sessionStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+  }
 }
-
 
 // Remove Item from Session Storage //
-function addToTrash(clicked_id)
-{
-	/* Display bookmark icon after click on trash icon 
-	document.getElementById("B"+clicked_id).hidden = false;
-	Hide trash icon after click on trash icon 
-	document.getElementById("T"+clicked_id).hidden = true;*/
+function addToTrash(clicked_id) {
+	let bookmarks = JSON.parse(sessionStorage.getItem("bookmarks"));
+	if (bookmarks.some(bookmark => bookmark === clicked_id)) {
+		bookmarks = bookmarks.filter(bookmark => bookmark !== clicked_id);
+    sessionStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+	  } 
+	}
 
-	var bookId = 
-	{
-		"Add_to_trash" : clicked_id,
-	};
-	if (clicked_id in sessionStorage){
-		alert(clicked_id + " a été enlevé de la Poch\'liste");
-		} else {
-		alert(clicked_id + " a déjà été enlevé de la Poch\'liste");
-				}
-	sessionStorage.removeItem(clicked_id,JSON.stringify(bookId));
-			}
-
-
-
-			// Fetch selected items from Session Storage //
-	window.addEventListener('load', function fetchData() {
-		let getKeys = Object.keys(sessionStorage);
-		console.log(getKeys);
-		
-		var url = urlString + '/' + getKeys;
-		keysLength = getKeys.length ;
-		if (keysLength > 0)  {
-		fetch (url)
-		.then(response => {
-			console.log(response);
-			if(!response.ok){
-				throw Error("ERROR");
-			}
-			return response.json();
-		})
-		.then(function appendData (data) {
-	
-			console.log(data.volumeInfo);
-
-			const title = data.volumeInfo.title;
-			const id = data.id;
-			const author = typeof data.volumeInfo.authors === 'undefined' ? 'Information manquante' : data.volumeInfo.authors[0];
-			const desc = typeof data.volumeInfo.description === 'undefined' ? 'Information manquante' : data.volumeInfo.description.substring(0,199);
-			const img = data.volumeInfo.imageLinks === undefined ? 'img/unavailable.png' : `${data.volumeInfo.imageLinks.thumbnail}`;
-const html2 = 
-
-`
-<div id ="D${id}" class="apiItem" >
-<div class="test" id ="T${id}" ><button class="btn"  onclick="addToTrash('${id}')"><i class="fas fa-trash"></i></button></div> 
-<p class="bookTitle">Titre : ${title} </p>
-<p class="bookId">Id : ${id} </p>
-<p class="bookAuthor" >Auteur : ${author} </p>
-<p class="bookDesc" >Description : ${desc} </p>
-<p class="bookImg" ><img src="${img}" height="200" width="141.41" alt="${title}" </p>
-</div>
-`;
-	console.log(html2);
-
-	document
-	.querySelector(".flexContainer4").insertAdjacentHTML("afterbegin",html2 );
-		})
-	.catch(error =>{
-		console.log(error);
-	});
-}
-	});
-	
-
-
-
-
-
-
-
-
- 
-	
-	
-	
