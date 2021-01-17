@@ -44,7 +44,6 @@ document.getElementById("Btn_Search").addEventListener(
   false
 );
 
-
 document
   .getElementById("Btn_Search")
   .addEventListener("click", function fetchData() {
@@ -76,7 +75,6 @@ document
           );
       }
     })
-   
 
     showBooks = getBooks => {
       // If results exist display them in div flexContainer3 //
@@ -124,7 +122,6 @@ document
 
 // Add Item to Session Storage //
 function addToBookmark(clicked_id) {
-
   let bookmarks = JSON.parse(sessionStorage.getItem("bookmarks"));
   if (bookmarks === null) {
     bookmarks = [];
@@ -134,8 +131,7 @@ function addToBookmark(clicked_id) {
   } else {
     bookmarks.push(clicked_id);
   sessionStorage.setItem("bookmarks", JSON.stringify(bookmarks));
-  }
-}
+  }}
 
 // Remove Item from Session Storage //
 function addToTrash(clicked_id) {
@@ -145,4 +141,46 @@ function addToTrash(clicked_id) {
     sessionStorage.setItem("bookmarks", JSON.stringify(bookmarks));
 	  } 
 	}
+
+// Display favorite books in Ma poch'liste
+  window.addEventListener('load', function fetchStoredBooks() {
+		let getValues = JSON.parse(sessionStorage.getItem("bookmarks"));
+    console.log(getValues);
+    if (getValues != null) {
+      for(let i=0;i<getValues.length;i++){
+		fetch (urlString + '/' + getValues[i])
+		.then(response => {
+			console.log(response);
+			if(!response.ok){
+				throw Error("ERROR");
+			}
+			return response.json();
+		})
+    .then(function appendData (data) {
+			console.log(data.volumeInfo);
+			const title = data.volumeInfo.title;
+			const id = data.id;
+			const author = typeof data.volumeInfo.authors === 'undefined' ? 'Information manquante' : data.volumeInfo.authors[0];
+			const desc = typeof data.volumeInfo.description === 'undefined' ? 'Information manquante' : data.volumeInfo.description.substring(0,199);
+			const img = data.volumeInfo.imageLinks === undefined ? 'img/unavailable.png' : `${data.volumeInfo.imageLinks.thumbnail}`;
+const storedBookElement = 
+`
+<div id ="D${id}" class="apiItem" >
+<div class="test" id ="T${id}" ><button class="btn"  onclick="addToTrash('${id}')"><i class="fas fa-trash"></i></button></div> 
+<p class="bookTitle">Titre : ${title} </p>
+<p class="bookId">Id : ${id} </p>
+<p class="bookAuthor" >Auteur : ${author} </p>
+<p class="bookDesc" >Description : ${desc} </p>
+<p class="bookImg" ><img src="${img}" height="200" width="141.41" alt="${title}" </p>
+</div>
+`;
+	console.log(storedBookElement);
+	document
+	.querySelector(".flexContainer4").insertAdjacentHTML("afterbegin",storedBookElement );
+		})
+	.catch(error =>{
+		console.log(error);
+	})}}})
+
+
 
