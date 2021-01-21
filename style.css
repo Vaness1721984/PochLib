@@ -28,7 +28,6 @@ h2{
 	font-weight:300;
 }
 
-
 .srch{
 align-self:start;	
 padding: 5px;
@@ -37,7 +36,16 @@ margin-top:10px;
 margin-bottom:10px;
 }
 
-.btn1{
+.btn__icon {
+	font-size:2em;
+	border: none;
+	color:rgb(68,148,135);
+	position:absolute;
+	top:0.6em;
+	right:0.6em;
+	}
+
+.btn_Add{
 padding: 10px 30px;
 margin-top:10px;
 margin-bottom:10px;
@@ -48,8 +56,7 @@ border-radius: 5px;
 align-self:center;
 }
 
-
-.btn2
+.btn_Search
 {
 padding: 10px 40px;
 margin-top:10px;
@@ -61,7 +68,7 @@ border-radius: 5px;
 align-self:start;
 }
 
-.btn3
+.btn_Cancel
 {
 padding: 10px 50px;
 margin-top:10px;
@@ -135,14 +142,7 @@ align-self:start;
 	position:relative;
 } 
 
-.btn {
-font-size:2em;
-border: none;
-color:rgb(68,148,135);
-position:absolute;
-top:0.6em;
-right:0.6em;
-}
+
 
 .bookTitle{
 font-size:small;
