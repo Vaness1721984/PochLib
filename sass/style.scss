@@ -1,0 +1,187 @@
+
+body{
+	margin: 40px 20px 20px 20px;
+	font-family: 'Noto Sans JP', sans-serif;
+}
+
+h1{
+	text-align:center;
+	box-shadow:0 4px 8px 0 rgba(0,0,0,0.2);
+	background-color: rgb(239,240,244);
+	padding:20px;
+	font-size:medium;
+	font-weight:300;
+}
+
+h2{
+	text-align:center;
+	padding-top:1px;
+	font-size:small;
+	font-weight:700;
+	}
+
+
+.flex-container{
+	display:flex;
+	flex-direction: column;
+	font-size:small;
+	font-weight:300;
+}
+
+.srch{
+align-self:start;	
+padding: 5px;
+width:100%;
+margin-top:10px;
+margin-bottom:10px;
+}
+
+.btn__icon {
+	font-size:2em;
+	border: none;
+	color:rgb(68,148,135);
+	position:absolute;
+	top:0.6em;
+	right:0.6em;
+	}
+
+.btn_Add{
+padding: 10px 30px;
+margin-top:10px;
+margin-bottom:10px;
+background-color: rgb(68,148,135);
+color:white;
+border:none;
+border-radius: 5px;
+align-self:center;
+}
+
+.btn_Search
+{
+padding: 10px 40px;
+margin-top:10px;
+margin-bottom:10px;
+background-color: rgb(68,148,135);
+color:white;
+border:none;
+border-radius: 5px;
+align-self:start;
+}
+
+.btn_Cancel
+{
+padding: 10px 50px;
+margin-top:10px;
+margin-bottom:10px;
+background-color: rgb(222,90,75);
+color:white;
+border:none;
+border-radius: 5px;
+align-self:start;
+}
+
+
+.flexContainer2 {
+	font-size:small;
+	font-weight:300;
+	background:rgb(239,240,244);
+	border:black solid;
+	border-width:thin;
+	color:red;
+	padding-left:10px;
+	padding-top:10px;
+	padding-bottom:10px;
+	margin-bottom:20px;
+	margin-top:20px;
+	position:relative;
+}
+
+.flexContainer3 {
+	display:flex;
+	flex-wrap:wrap;
+	margin-left:-20px;
+	margin-top:-20px;
+}
+
+
+ .flexContainer3 .apiItem {
+	background:rgb(239,240,244);
+	text-align:right;
+	border:black solid;
+	border-width:thin;
+	flex:1 0 calc(50% - 20px);
+	box-sizing:border-box;
+	padding-left:20px;
+	padding-top:10px;
+	padding-right:35px;
+	margin-left:20px;
+	margin-top:20px;
+	position:relative;
+} 
+
+
+.flexContainer4 {
+	display:flex;
+	flex-wrap:wrap;
+	margin-left:-20px;
+	margin-top:-20px;
+}
+
+.flexContainer4 .apiItem {
+	background:rgb(239,240,244);
+	text-align:right;
+	border:black solid;
+	border-width:thin;
+	flex:1 0 calc(50% - 20px);
+	box-sizing:border-box;
+	padding-left:20px;
+	padding-top:10px;
+	padding-right:35px;
+	margin-left:20px;
+	margin-top:20px;
+	position:relative;
+} 
+
+
+
+.bookTitle{
+font-size:small;
+font-weight:500;
+text-align: left;
+}
+
+.bookId{
+	font-size:small;
+	font-weight:500;
+	font-style: italic;
+	text-align: left;
+	}
+
+.bookAuthor{
+font-size:small;
+font-weight:300;
+text-align: left;
+}
+
+.bookDesc{
+	font-size:small;
+	font-weight:300;
+	text-align: left;
+	}
+
+
+b {
+	font-size:small;
+	font-weight:300;
+	text-align: left;
+}
+
+p{
+	font-size:small;
+	font-weight:300;
+	text-align: left;
+}
+
+.bookImg{
+	text-align:center;
+}
