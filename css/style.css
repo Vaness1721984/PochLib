@@ -6,7 +6,7 @@ body {
 h1 {
   text-align: center;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  background-color: rgb(239, 240, 244);
+  background-color: #eff0f4;
   padding: 20px;
   font-size: medium;
   font-weight: 300;
@@ -30,7 +30,7 @@ h2 {
 .btn-icon {
   font-size: 2em;
   border: none;
-  color: rgb(68, 148, 135);
+  color: #449487;
   position: absolute;
   top: 0.6em;
   right: 0.6em;
@@ -43,7 +43,7 @@ h2 {
   border: none;
   border-radius: 5px;
   padding: 10px 40px;
-  background-color: rgb(68, 148, 135);
+  background-color: #449487;
   align-self: start;
 }
 
@@ -56,7 +56,7 @@ h2 {
 }
 
 .btn-red {
-  background-color: rgb(222, 90, 75);
+  background-color: #de5a4b;
 }
 
 .flex-container {
@@ -67,7 +67,7 @@ h2 {
 }
 
 .noResultFrame {
-  background: rgb(239, 240, 244);
+  background: #eff0f4;
   border: black solid;
   border-width: thin;
   color: red;
@@ -87,7 +87,7 @@ h2 {
 }
 
 .frame .apiItem {
-  background: rgb(239, 240, 244);
+  background: #eff0f4;
   text-align: right;
   border: black solid;
   border-width: thin;
@@ -118,3 +118,5 @@ p {
 .p-img {
   text-align: center;
 }
+
+/*# sourceMappingURL=style.css.map */
