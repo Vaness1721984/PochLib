@@ -1,0 +1,31 @@
+.btn-icon {
+  font-size: 2em;
+  border: none;
+  color: $green;
+  position: absolute;
+  top: 0.6em;
+  right: 0.6em;
+}
+
+.btn {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 40px;
+  background-color: $green;
+  align-self: start;
+}
+
+.btn-centered {
+  align-self: center;
+}
+
+.btn-padding50 {
+  padding: 10px 50px;
+}
+
+.btn-red {
+  background-color: $red;
+}

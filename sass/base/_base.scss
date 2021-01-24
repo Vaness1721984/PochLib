@@ -1,0 +1,38 @@
+body {
+  margin: 40px 20px 20px 20px;
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+h1 {
+  text-align: center;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  background-color: $grey;
+  padding: 20px;
+  font-size: medium;
+  font-weight: 300;
+}
+
+h2 {
+  text-align: center;
+  padding-top: 1px;
+  font-size: small;
+  font-weight: 700;
+}
+
+p {
+  font-size: small;
+  font-weight: 300;
+  text-align: left;
+}
+
+.p-bold {
+  font-weight: 500;
+}
+
+.p-italic {
+  font-style: italic;
+}
+
+.p-img {
+  text-align: center;
+}
