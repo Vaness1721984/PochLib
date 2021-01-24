@@ -180,8 +180,8 @@ function fetchStoredBooks() {
           return response.json();
         })
         .then(function appendData(data) {
-            //If results exist display them in div storedResult
-  const storedBooksDiv = document.querySelector("#storedResult");
+          //If results exist display them in div storedResult
+          const storedBooksDiv = document.querySelector("#storedResult");
           //Definition of constants to retrieve with API
           console.log(data.volumeInfo);
           const title = data.volumeInfo.title;
@@ -200,17 +200,16 @@ function fetchStoredBooks() {
               : `${data.volumeInfo.imageLinks.thumbnail}`;
           let storedBookElement = document.createElement("div");
           storedBookElement.className = "apiItem";
-          storedBookElement.innerHTML =
-          `
+          storedBookElement.innerHTML = `
 <div id ="T${id}" ><button class="btn-icon"  onclick="addToTrash('${id}')"><i class="fas fa-trash"></i></button></div> 
 <p class="p-bold">Titre : ${title} </p>
 <p class="p-bold p-italic">Id : ${id} </p>
 <p >Auteur : ${author} </p>
 <p >Description : ${desc} </p>
 <p class="p-img" ><img src="${img}" height="200" width="141.41" alt="${title}" </p>
-`;   
-console.log(storedBookElement);
-   storedBooksDiv.append(storedBookElement);
+`;
+          console.log(storedBookElement);
+          storedBooksDiv.append(storedBookElement);
         })
         .catch((error) => {
           console.log(error);
@@ -219,5 +218,3 @@ console.log(storedBookElement);
   }
 }
 window.addEventListener("load", fetchStoredBooks());
-
-
