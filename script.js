@@ -1,10 +1,5 @@
-// Initialization of API variables //
-const urlString = "https://www.googleapis.com/books/v1/volumes";
-const intitle = document.getElementById("title");
-const inauthor = document.getElementById("author");
-const printType = "books";
-const apiKey = "&key=AIzaSyDayz0L9d9KbYEU17fcqMJ6dU8UDIkJXhQ";
 
+//Display Search Form after clicking on "Ajouter un livre" button  
 document.getElementById("Btn_Add").addEventListener(
   "click",
   function () {
@@ -14,6 +9,7 @@ document.getElementById("Btn_Add").addEventListener(
   false
 );
 
+//Go back to initial screen after clicking on "Annuler" button 
 document.getElementById("Btn_Cancel").addEventListener(
   "click",
   function () {
@@ -23,18 +19,19 @@ document.getElementById("Btn_Cancel").addEventListener(
     document.getElementById("myform").hidden = true;
     document.getElementById("results").hidden = true;
 
-    // Delete input after clicking on Cancel Button //
+    //Delete form inputs after clicking on "Annuler" button
     let inputs = document.querySelectorAll("input");
     inputs.forEach((input) => (input.value = ""));
     fetchStoredBooks();
- 
   },
   false
 );
 
+//Display results after clicking on "Rechercher" button 
 document.getElementById("Btn_Search").addEventListener(
   "click",
   function () {
+    // Don't display results if "Titre du Livre" & "Auteur" fields are empty
     if (intitle.value === "" || inauthor.value === "") {
       document.getElementById("results").hidden = true;
       document.getElementById("content").hidden = false;
@@ -46,10 +43,18 @@ document.getElementById("Btn_Search").addEventListener(
   false
 );
 
+
+//Initialization of API values
+const urlString = "https://www.googleapis.com/books/v1/volumes";
+const intitle = document.getElementById("title");
+const inauthor = document.getElementById("author");
+const printType = "books";
+const apiKey = "&key=AIzaSyDayz0L9d9KbYEU17fcqMJ6dU8UDIkJXhQ";
+
 document
   .getElementById("Btn_Search")
   .addEventListener("click", function fetchData() {
-    // clear the content of div results before fetching data
+    //Clear the content of div results before fetching data
     document.getElementById("resultOk").innerHTML = "";
     document.getElementById("noResult").innerHTML = "";
     let url =
@@ -61,9 +66,11 @@ document
       "&printType=" +
       printType +
       apiKey;
+      //Alert is displayed if "Titre du Livre" & "Auteur" fields are empty
     if (intitle.value === "" || inauthor.value === "") {
       alert("Please enter a title and author before clicking on Search button");
     } else {
+      //Execute fetch data if "Titre du Livre" & "Auteur" fields are not empty
       fetch(url)
         .then((response) => {
           console.log(response);
@@ -77,44 +84,47 @@ document
   });
 
 showBooks = (getBooks) => {
-  // If results exist display them in div flexContainer3 //
+  //If results exist display them in div flexContainer3
   const booksDiv = document.querySelector(".flexContainer3");
-  // If no book returned display "Aucun livre n'a été trouvé" in flexContainer2
+  //If no book is returned display "Aucun livre n'a été trouvé" in flexContainer2
   if (typeof getBooks === "undefined") {
     console.log("Aucun livre n'a été trouvé");
     document
       .querySelector(".flexContainer2")
       .insertAdjacentHTML("afterbegin", "Aucun livre n'a été trouvé");
-    // If no book returned hide div "resultOk"
+    //If no book returned hide div "resultOk"
     document.getElementById("resultOk").hidden = true;
     document.getElementById("noResult").hidden = false;
   } else {
-    // If results return books hide div "noResult"
+    //If results return books hide div "noResult"
     document.getElementById("resultOk").hidden = false;
     document.getElementById("noResult").hidden = true;
     console.log(getBooks);
+      //Definition of constants to retrieve with API
     getBooks.forEach((book) => {
-      // Definition of variable to retrieve with API
-      // Creation of a variable "Titre du Livre"
-      let title = book.volumeInfo.title;
-      // Creation of a variable "Id du Livre"
-      let id = book.id;
-      // Creation of a variable "Auteur du Livre" limited to 1 author max if no author available display "Information manquante"
-      let author =
+      //Creation of a constant "Titre"
+      const title = book.volumeInfo.title;
+      //Creation of a constant "Id"
+      const id = book.id;
+      /*Creation of a constant "Auteur" limited to 1 author max 
+      *If no author available display "Information manquante"*/
+      const author =
         typeof book.volumeInfo.authors === "undefined"
           ? "Information manquante"
           : book.volumeInfo.authors[0];
-      // Creation of a variable "Description du Livre" limited to 200 caracters if no description available display "Information manquante"
-      let desc =
+      /*Creation of a constant "Description" limited to 200 caracters 
+      *If no description available display "Information manquante"*/
+      const desc =
         typeof book.volumeInfo.description === "undefined"
           ? "Information manquante"
           : book.volumeInfo.description.substring(0, 199);
-      // Creation of a variable "Image du Livre" if no thumnail available display image "Coming Soon" instead
-      let img =
+      /*Creation of a constant "Image" 
+      *If no thumnail available display image "Coming Soon" instead*/
+      const img =
         book.volumeInfo.imageLinks === undefined
           ? "img/unavailable.png"
           : `${book.volumeInfo.imageLinks.thumbnail}`;
-      // Creation of a dynamic div to store results with HTML structure
+      //Creation of a dynamic div to store results with HTML structure
       let bookElement = document.createElement("div");
       bookElement.className = "apiItem";
       bookElement.innerHTML = `
@@ -130,12 +140,13 @@ showBooks = (getBooks) => {
   }
 };
 
-// Add Item to Session Storage //
+//Add item to Session Storage after clicking on bookmark icon
 function addToBookmark(clicked_id) {
   let bookmarks = JSON.parse(sessionStorage.getItem("bookmarks"));
   if (bookmarks === null) {
     bookmarks = [];
   }
+  //Alert if item has already been added in Session Storage
   if (bookmarks.some((bookmark) => bookmark === clicked_id)) {
     alert("Vous ne pouvez ajouter deux fois le même livre");
   } else {
@@ -144,7 +155,7 @@ function addToBookmark(clicked_id) {
   }
 }
 
-// Remove Item from Session Storage //
+//Remove Item from Session Storage after clicking on trash icon
 function addToTrash(clicked_id) {
   let bookmarks = JSON.parse(sessionStorage.getItem("bookmarks"));
   if (bookmarks.some((bookmark) => bookmark === clicked_id)) {
@@ -154,7 +165,7 @@ function addToTrash(clicked_id) {
   }
 }
 
-// Display favorite books in Ma poch'liste
+//Display favorite books in Ma poch'liste
 function fetchStoredBooks() {
   document.getElementById("flexContainer4").innerHTML = "";
   let getValues = JSON.parse(sessionStorage.getItem("bookmarks"));
