@@ -1,7 +1,7 @@
 {
   "name": "pochlib",
   "version": "1.0.0",
-  "description": "",
+  "description": "Parcours Salesforce Developpeur - Projet 6 ",
   "main": "index.js",
   "scripts": {
     "sass": "sass --watch ./sass/main.scss:./css/style.css"
