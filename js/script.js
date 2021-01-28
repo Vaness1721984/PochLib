@@ -1,25 +1,25 @@
 //Display Search Form after clicking on "Ajouter un livre" button
-document.getElementById("Btn_Add").addEventListener(
+document.getElementById("btn_add").addEventListener(
   "click",
   function () {
-    document.getElementById("Btn_Add").hidden = true;
+    document.getElementById("btn_add").hidden = true;
     document.getElementById("myform").hidden = false;
   },
   false
 );
 
 //Go back to initial screen after clicking on "Annuler" button
-document.getElementById("Btn_Cancel").addEventListener(
+document.getElementById("btn_cancel").addEventListener(
   "click",
   function () {
     console.clear();
-    document.getElementById("Btn_Add").hidden = false;
+    document.getElementById("btn_add").hidden = false;
     document.getElementById("content").hidden = false;
     document.getElementById("myform").hidden = true;
     document.getElementById("results").hidden = true;
 
     //Delete form inputs after clicking on "Annuler" button
-    let inputs = document.querySelectorAll("input");
+    const inputs = document.querySelectorAll("input");
     inputs.forEach((input) => (input.value = ""));
     fetchStoredBooks();
   },
@@ -27,7 +27,7 @@ document.getElementById("Btn_Cancel").addEventListener(
 );
 
 //Display results after clicking on "Rechercher" button
-document.getElementById("Btn_Search").addEventListener(
+document.getElementById("btn_search").addEventListener(
   "click",
   function () {
     // Don't display results if "Titre du Livre" & "Auteur" fields are empty
@@ -50,12 +50,12 @@ const printType = "books";
 const apiKey = "&key=AIzaSyDayz0L9d9KbYEU17fcqMJ6dU8UDIkJXhQ";
 
 document
-  .getElementById("Btn_Search")
+  .getElementById("btn_search")
   .addEventListener("click", function fetchData() {
     //Clear the content of div results before fetching data
     document.getElementById("resultOk").innerHTML = "";
     document.getElementById("noResult").innerHTML = "";
-    let url =
+    const url =
       urlString +
       "?q=" +
       intitle.value +
@@ -71,7 +71,6 @@ document
       //Execute fetch data if "Titre du Livre" & "Auteur" fields are not empty
       fetch(url)
         .then((response) => {
-          console.log(response);
           if (!response.ok) {
             throw Error("ERROR");
           }
@@ -86,7 +85,7 @@ showBooks = (getBooks) => {
   const booksDiv = document.querySelector("#resultOk");
   //If no book is returned display "Aucun livre n'a été trouvé" in flexContainer2
   if (typeof getBooks === "undefined") {
-    console.log("Aucun livre n'a été trouvé");
+    console.error("Aucun livre n'a été trouvé");
     document
       .querySelector("#noResult")
       .insertAdjacentHTML("afterbegin", "Aucun livre n'a été trouvé");
@@ -97,7 +96,6 @@ showBooks = (getBooks) => {
     //If results return books hide div "noResult"
     document.getElementById("resultOk").hidden = false;
     document.getElementById("noResult").hidden = true;
-    console.log(getBooks);
     //Definition of constants to retrieve with API
     getBooks.forEach((book) => {
       //Creation of a constant "Titre"
@@ -107,13 +105,13 @@ showBooks = (getBooks) => {
       /*Creation of a constant "Auteur" limited to 1 author max
        *If no author available display "Information manquante"*/
       const author =
-        typeof book.volumeInfo.authors === "undefined"
+        book.volumeInfo.authors === undefined
           ? "Information manquante"
           : book.volumeInfo.authors[0];
       /*Creation of a constant "Description" limited to 200 caracters
        *If no description available display "Information manquante"*/
       const desc =
-        typeof book.volumeInfo.description === "undefined"
+        book.volumeInfo.description === undefined
           ? "Information manquante"
           : book.volumeInfo.description.substring(0, 199);
       /*Creation of a constant "Image"
@@ -123,7 +121,7 @@ showBooks = (getBooks) => {
           ? "img/unavailable.png"
           : `${book.volumeInfo.imageLinks.thumbnail}`;
       //Creation of a dynamic div to store results with HTML structure
-      let bookElement = document.createElement("div");
+      const bookElement = document.createElement("div");
       bookElement.className = "apiItem";
       bookElement.innerHTML = `
         <div id ="B${id}" ><button class="btn-icon" id ="${id}" onclick="addToBookmark(this.id)" ><i class="fas fa-bookmark"></i></button></div>
@@ -167,13 +165,11 @@ function addToTrash(clicked_id) {
 function fetchStoredBooks() {
   //If results exist display them in div storedResult
   document.getElementById("storedResult").innerHTML = "";
-  let getValues = JSON.parse(sessionStorage.getItem("bookmarks"));
-  console.log(getValues);
+  const getValues = JSON.parse(sessionStorage.getItem("bookmarks"));
   if (getValues != null) {
     for (let i = 0; i < getValues.length; i++) {
       fetch(urlString + "/" + getValues[i])
         .then((response) => {
-          console.log(response);
           if (!response.ok) {
             throw Error("ERROR");
           }
@@ -183,22 +179,21 @@ function fetchStoredBooks() {
           //If results exist display them in div storedResult
           const storedBooksDiv = document.querySelector("#storedResult");
           //Definition of constants to retrieve with API
-          console.log(data.volumeInfo);
           const title = data.volumeInfo.title;
           const id = data.id;
           const author =
-            typeof data.volumeInfo.authors === "undefined"
+            data.volumeInfo.authors === undefined
               ? "Information manquante"
               : data.volumeInfo.authors[0];
           const desc =
-            typeof data.volumeInfo.description === "undefined"
+            data.volumeInfo.description === undefined
               ? "Information manquante"
               : data.volumeInfo.description.substring(0, 199);
           const img =
             data.volumeInfo.imageLinks === undefined
               ? "img/unavailable.png"
               : `${data.volumeInfo.imageLinks.thumbnail}`;
-          let storedBookElement = document.createElement("div");
+          const storedBookElement = document.createElement("div");
           storedBookElement.className = "apiItem";
           storedBookElement.innerHTML = `
 <div id ="T${id}" ><button class="btn-icon"  onclick="addToTrash('${id}')"><i class="fas fa-trash"></i></button></div> 
@@ -208,11 +203,10 @@ function fetchStoredBooks() {
 <p >Description : ${desc} </p>
 <p class="p-img" ><img src="${img}" height="200" width="141.41" alt="${title}" </p>
 `;
-          console.log(storedBookElement);
           storedBooksDiv.append(storedBookElement);
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     }
   }
