@@ -22,6 +22,6 @@ To run this project :
 
 ```
 $ download the code on github
-$ save the unzipped folder PochLib-Develop on your desktop
+$ save the unzipped folder PochLib-{Branch} on your desktop
 $ open the folder and click on index.html 
 ```
