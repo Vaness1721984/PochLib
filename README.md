@@ -1,5 +1,5 @@
 # Poch'Lib
-This the project number 6 delivery of the Salesforce Developer path.
+This is the delivery of project number 6 in the Salesforce Developer path.
 
 ## Table of contents
 * [General info](#general-info)
@@ -7,7 +7,12 @@ This the project number 6 delivery of the Salesforce Developer path.
 * [Setup](#setup)
 
 ## General info
-This project is simple Lorem ipsum dolor generator.
+This project allows you to :
+ * search for a book by title and author and display the results in "Résultats de recherche"
+ * add one ore many book(s) in "Ma poch'liste" and keep it/them until you close the browser window
+ * remove one by one a book from "Ma poch'liste"
+The Google Books API's is used to fetch the books and display them in "Résultats de recherche" and "Ma poch'liste".
+The sessionStorage API is used to add items in the session storage and remove items from the session storage.  
 	
 ## Technologies
 Poch'Lib is created with:
