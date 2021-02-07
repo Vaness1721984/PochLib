@@ -125,8 +125,8 @@ showBooks = (getBooks) => {
       bookElement.className = "apiItem";
       bookElement.innerHTML = `
         <div id ="B${id}" ><button class="btn-icon" id ="${id}" onclick="addToBookmark(this.id)" ><i class="fas fa-bookmark"></i></button></div>
-        <p class="frame-bold">Titre : ${title} </p>
-        <p class="frame-bold frame-italic">Id : ${id} </p>
+        <p class="p-bold">Titre : ${title} </p>
+        <p class="p-bold p-italic">Id : ${id} </p>
         <p >Auteur : ${author} </p>
         <p >Description : ${desc} </p>
         <p class="p-img" ><img src="${img}" height="200" width="141.41" alt="${title}" </p>
